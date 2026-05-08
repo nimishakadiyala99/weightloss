@@ -28,12 +28,6 @@
     .day{background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.7);border-radius:16px;padding:12px}
     .day h3{margin:0 0 8px;font-size:15px;color:#3f3a47}
     .day ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:13px}
-    .mini-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
-    .d{background:#fff;border:1px solid #eee;border-radius:10px;padding:8px;min-height:70px;font-size:12px;text-align:center;cursor:pointer}
-    .d small{display:block;opacity:.6}
-    .mark{font-size:16px;margin-top:6px;display:block}
-    table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff;border-radius:12px;overflow:hidden}
-    th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:13px}
   </style>
 </head>
 <body>
@@ -54,28 +48,25 @@
     </section>
 
     <section class="card">
-      <h2>Calendar Tracker System 🗓️</h2>
-      <div class="grid2">
+      <h2>Today’s Cute Tracker 💖</h2>
+      <p class="goal">Log your real numbers for today and I’ll save them on this device.</p>
+      <div class="tracker-grid">
         <article class="card">
-          <h3>Steps + No Sugar Calendar</h3>
-          <p class="goal">Tap each day to mark: 👟 for steps done, 💖 for no sugar day.</p>
-          <div id="stepsCalendar" class="mini-cal"></div>
+          <h3>Water Intake Tracker 💧</h3>
+          <p class="goal">Goal: 3.0L/day</p>
+          <input class="input" id="waterInput" type="number" min="0" max="6" step="0.1" placeholder="Enter liters e.g. 2.6" />
+          <button class="btn" onclick="logWater()">Log Water</button>
+          <div id="waterRing" class="ring"><span id="waterPct">0%</span></div>
         </article>
         <article class="card">
-          <h3>Water Intake Table 💧</h3>
-          <p class="goal">Add liters for any date; it stays saved on your device.</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <input class="input" id="waterDate" type="date" />
-            <input class="input" id="waterLiters" type="number" min="0" max="6" step="0.1" placeholder="Liters" style="max-width:140px"/>
-            <button class="btn" onclick="addWaterEntry()">Save Entry</button>
-          </div>
-          <table>
-            <thead><tr><th>Date</th><th>Water (L)</th></tr></thead>
-            <tbody id="waterTableBody"></tbody>
-          </table>
+          <h3>Step Tracker 👟</h3>
+          <p class="goal">Week 2 Goal: 8,500–10,000/day</p>
+          <input class="input" id="stepsInput" type="number" min="0" max="50000" step="100" placeholder="Enter steps e.g. 9200" />
+          <button class="btn" onclick="logSteps()">Log Steps</button>
+          <div id="stepsRing" class="ring"><span id="stepsPct">0%</span></div>
         </article>
       </div>
-      <p class="quote" id="motivation">Tap your habits daily — consistency looks cute on you ✨</p>
+      <p class="quote" id="motivation">“You’re doing amazing, pretty girl. Small steps still count.”</p>
     </section>
 
     <section class="card">
@@ -95,67 +86,72 @@
   </div>
 
   <script>
+    const goals = { water: 3, steps: 10000 };
     const todayKey = new Date().toISOString().slice(0, 10);
-    const stepsKey = 'reset-steps-calendar';
-    const waterKey = 'reset-water-table';
+    const storageKey = `resetJourney-${todayKey}`;
 
-    function loadJson(key, fallback) {
-      try { return JSON.parse(localStorage.getItem(key)) || fallback; }
-      catch { return fallback; }
+    function getData() {
+      try { return JSON.parse(localStorage.getItem(storageKey)) || { water: 0, steps: 0 }; }
+      catch { return { water: 0, steps: 0 }; }
     }
-    function saveJson(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
-    function renderStepsCalendar() {
-      const box = document.getElementById('stepsCalendar');
-      const state = loadJson(stepsKey, {});
-      const now = new Date();
-      const y = now.getFullYear(); const m = now.getMonth();
-      const days = new Date(y, m + 1, 0).getDate();
-      box.innerHTML = '';
-      for (let d = 1; d <= Math.min(days, 14); d++) {
-        const date = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-        const mark = state[date] || 0;
-        const el = document.createElement('button');
-        el.className = 'd';
-        el.innerHTML = `<small>${date.slice(5)}</small><strong>Day ${d}</strong><span class="mark">${mark===1?'👟':mark===2?'💖':''}</span>`;
-        el.onclick = () => {
-          state[date] = (state[date] + 1) % 3; // 0 none,1 steps,2 no sugar
-          saveJson(stepsKey, state);
-          renderStepsCalendar();
-          document.getElementById('motivation').textContent = state[date]===1 ? '👟 Steps marked! Proud of your movement.' : state[date]===2 ? '💖 No sugar win! Amazing discipline.' : 'Marker cleared for this day.';
-        };
-        box.appendChild(el);
+    function saveData(data) { localStorage.setItem(storageKey, JSON.stringify(data)); }
+
+    function drawRing(elId, pct, color = '#95c9a5') {
+      const clamped = Math.max(0, Math.min(100, pct));
+      document.getElementById(elId).style.background = `conic-gradient(${color} 0 ${clamped}%, #ececec ${clamped}% 100%)`;
+    }
+
+    function confettiCute() {
+      const holder = document.getElementById('celebrate');
+      const emojis = ['✨','💖','🌸','🫶','🎀'];
+      for (let i = 0; i < 14; i++) {
+        const spark = document.createElement('span');
+        spark.className = 'spark';
+        spark.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        spark.style.left = (Math.random()*100) + 'vw';
+        spark.style.top = (70 + Math.random()*20) + 'vh';
+        holder.appendChild(spark);
+        setTimeout(() => spark.remove(), 1800);
       }
     }
 
-    function renderWaterTable() {
-      const rows = loadJson(waterKey, []);
-      const body = document.getElementById('waterTableBody');
-      body.innerHTML = rows.length ? '' : '<tr><td colspan="2">No entries yet.</td></tr>';
-      rows.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(r => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${r.date}</td><td>${Number(r.liters).toFixed(1)}</td>`;
-        body.appendChild(tr);
-      });
-      const today = new Date().toISOString().slice(0,10);
-      document.getElementById('waterDate').value = today;
+    function setMotivation(waterPct, stepsPct) {
+      const msg = document.getElementById('motivation');
+      if (waterPct >= 100 && stepsPct >= 100) msg.textContent = '🎉 Queen energy! You hit both goals today!';
+      else if (waterPct >= 100 || stepsPct >= 100) msg.textContent = '💫 One goal complete! Keep glowing and finish the other one.';
+      else if (waterPct + stepsPct > 120) msg.textContent = '🌷 Beautiful consistency. You are building habits that last.';
+      else msg.textContent = '“Progress over perfection.” You are still winning today.';
     }
 
-    function addWaterEntry() {
-      const date = document.getElementById('waterDate').value;
-      const liters = Number(document.getElementById('waterLiters').value || 0);
-      if (!date || liters <= 0) return;
-      const rows = loadJson(waterKey, []);
-      const idx = rows.findIndex(r => r.date === date);
-      if (idx >= 0) rows[idx].liters = liters; else rows.push({ date, liters });
-      saveJson(waterKey, rows);
-      renderWaterTable();
-      document.getElementById('motivation').textContent = `💧 Saved ${liters.toFixed(1)}L for ${date}. Keep glowing!`;
+    function refreshUI() {
+      const data = getData();
+      const waterPct = Math.round((data.water / goals.water) * 100);
+      const stepsPct = Math.round((data.steps / goals.steps) * 100);
+      document.getElementById('waterStat').textContent = `${data.water.toFixed(1)}L / 3L`;
+      document.getElementById('stepsStat').textContent = `${data.steps} / 10000`;
+      document.getElementById('waterPct').textContent = `${Math.min(waterPct, 999)}%`;
+      document.getElementById('stepsPct').textContent = `${Math.min(stepsPct, 999)}%`;
+      drawRing('waterRing', waterPct, '#8fca9f');
+      drawRing('stepsRing', stepsPct, '#c6a9ef');
+      setMotivation(waterPct, stepsPct);
     }
 
-    window.addWaterEntry = addWaterEntry;
-    renderStepsCalendar();
-    renderWaterTable();
+    function logWater() {
+      const val = Number(document.getElementById('waterInput').value || 0);
+      const data = getData();
+      data.water = Math.max(0, val);
+      saveData(data); refreshUI(); confettiCute();
+    }
+
+    function logSteps() {
+      const val = Number(document.getElementById('stepsInput').value || 0);
+      const data = getData();
+      data.steps = Math.max(0, Math.round(val));
+      saveData(data); refreshUI(); confettiCute();
+    }
+
+    refreshUI();
   </script>
 </body>
 </html>
