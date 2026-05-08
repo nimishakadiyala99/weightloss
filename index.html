@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My 2-Week Reset Journey</title>
+  <style>
+    :root{--sage:#cfe3d2;--blush:#f9e3ea;--beige:#f5ecdd;--cream:#fff8ef;--lav:#e6ddfb;--text:#4a4a56}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:linear-gradient(130deg,var(--cream),var(--beige),var(--blush));}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px;display:grid;gap:16px}
+    .card{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(8px);border-radius:24px;box-shadow:0 12px 30px rgba(0,0,0,.08);padding:18px}
+    h1,h2,h3{margin:.2rem 0}.hero{position:relative;overflow:hidden}.blob{position:absolute;width:220px;height:220px;border-radius:999px;filter:blur(30px);opacity:.6}.b1{right:-80px;top:-80px;background:var(--lav)}.b2{left:-80px;bottom:-80px;background:var(--sage)}
+    .stats,.grid2,.grid3,.meals{display:grid;gap:10px}.stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.grid2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.grid3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.meals{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+    .progress{height:10px;background:#fff;border-radius:999px;overflow:hidden}.bar{height:100%;width:43%;background:linear-gradient(90deg,var(--sage),var(--lav));animation:grow 1.2s ease}
+    @keyframes grow{from{width:0}to{width:43%}}
+    .pill{display:inline-block;background:var(--sage);padding:6px 10px;border-radius:999px;margin:4px 6px 0 0;font-size:12px}
+    .sticky{padding:12px;border-radius:16px;font-size:13px}.s1{background:#fff0aa}.s2{background:#ffdce8}.s3{background:#dbffd8}.s4{background:#ece0ff}
+    .ring{width:120px;height:120px;border-radius:50%;background:conic-gradient(#89c797 0 61%, #ececec 61%);display:grid;place-items:center;margin:auto}.ring>span{width:88px;height:88px;background:rgba(255,255,255,.8);border-radius:50%;display:grid;place-items:center;font-weight:700}
+    textarea,input{width:100%;border:none;border-radius:14px;padding:10px;background:#fff} .quote{font-style:italic}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card hero">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <h1>My 2-Week Reset Journey ✨</h1>
+      <p>Becoming healthier, happier, stronger — one cozy day at a time.</p>
+      <div class="stats">
+        <div class="card"><small>Current Weight</small><h3>70.9 kg</h3></div>
+        <div class="card"><small>Goal Weight</small><h3>67.0 kg</h3></div>
+        <div class="card"><small>Water</small><h3>2.3L / 3L</h3></div>
+        <div class="card"><small>Steps</small><h3>9,800</h3></div>
+        <div class="card"><small>Workout Streak</small><h3>5 Days</h3></div>
+      </div>
+      <p>Day 6 of 14 • 43% complete</p><div class="progress"><div class="bar"></div></div>
+    </section>
+
+    <section class="grid2">
+      <article class="card">
+        <h2>Daily Check-In Dashboard</h2>
+        <label>Water Intake</label><input type="range" min="0" max="4" value="2.3"/>
+        <label>Sleep (7+)</label><input type="range" min="0" max="10" value="7"/>
+        <label>Protein (80g)</label><input type="range" min="0" max="140" value="78"/>
+        <label>Energy</label><input type="range" min="0" max="10" value="7"/>
+        <textarea rows="3" placeholder="How I feel today..."></textarea>
+      </article>
+      <article class="card">
+        <h2>Step Tracker</h2>
+        <div class="ring"><span>61%</span></div>
+        <p>Week 1 goal: 7,000/day • Week 2 goal: 8,500–10,000/day</p>
+        <p>Mon 7.1k • Tue 7.6k • Wed 8.4k • Thu 9.0k • Fri 9.8k • Sat 8.5k • Sun 10.2k</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Weight & Body Progress</h2>
+      <p>✅ You’re down 1kg!  • 🔥 Consistency streak: 5 days!</p>
+      <div class="grid3">
+        <div class="card"><small>Waist</small><h3>-2.5 cm</h3></div>
+        <div class="card"><small>Bloating</small><h3>Low</h3></div>
+        <div class="card"><small>Weekly Reflection</small><h3>Proud + steady</h3></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Meal Tracker</h2>
+      <div class="meals">
+        <div class="card"><h3>Breakfast</h3><textarea rows="2" placeholder="Food notes + emoji"></textarea></div>
+        <div class="card"><h3>Lunch</h3><textarea rows="2" placeholder="Food notes + emoji"></textarea></div>
+        <div class="card"><h3>Dinner</h3><textarea rows="2" placeholder="Food notes + emoji"></textarea></div>
+        <div class="card"><h3>Snacks</h3><textarea rows="2" placeholder="Food notes + emoji"></textarea></div>
+      </div>
+      <p>Structure: 1 palm protein • 1 fist carbs • unlimited veggies • healthy fats in moderation.</p>
+      <p>Protein ideas: eggs, chicken, paneer, tofu, Greek yogurt, fish, dal.</p>
+      <p>Carb ideas: rice, roti, potatoes, pasta, oats. Snacks: popcorn, yogurt, fruit, roasted chana, protein bar, iced coffee.</p>
+    </section>
+
+    <section class="grid2">
+      <article class="card">
+        <h2>Workout Planner</h2>
+        <p><b>Day A:</b> Leg Press 3x12, Lat Pulldown 3x12, Shoulder Press 3x10, Glute Bridges 3x15, Incline Walk 10m</p>
+        <p><b>Day B:</b> RDL 3x10, Seated Row 3x12, Goblet Squat 3x12, Cable Crunches 3x15, Incline Walk 10m</p>
+        <p><b>Day C:</b> Hip Thrust 3x12, Chest Press 3x12, Walking Lunges 3x10, Assisted Plank 3 rounds, Stairmaster 10m</p>
+        <span class="pill">Workout streak</span><span class="pill">Soreness tracker</span><span class="pill">Rest day reminder</span>
+      </article>
+      <article class="card">
+        <h2>Motivation & Wellness</h2>
+        <p class="quote">“Progress over perfection.”</p>
+        <div class="grid3">
+          <div class="sticky s1">One planned treat daily is okay</div>
+          <div class="sticky s2">Avoid sugary drinks/liquid calories</div>
+          <div class="sticky s3">Never miss 2 days in a row</div>
+          <div class="sticky s4">One bad meal does NOT ruin progress</div>
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>
