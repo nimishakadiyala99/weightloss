@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My 2-Week Reset Journey</title>
+  <style>
+    :root{--sage:#cfe3d2;--blush:#f9e3ea;--beige:#f5ecdd;--cream:#fff8ef;--lav:#e6ddfb;--text:#4a4a56;--mint:#95c9a5}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:linear-gradient(130deg,var(--cream),var(--beige),var(--blush));}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px;display:grid;gap:16px}
+    .card{background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.55);backdrop-filter:blur(9px);border-radius:24px;box-shadow:0 12px 30px rgba(0,0,0,.08);padding:18px}
+    .hero{position:relative;overflow:hidden}.blob{position:absolute;width:220px;height:220px;border-radius:999px;filter:blur(30px);opacity:.6}.b1{right:-80px;top:-80px;background:var(--lav)}.b2{left:-80px;bottom:-80px;background:var(--sage)}
+    .stats,.grid2,.grid3{display:grid;gap:10px}.stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.grid2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.grid3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .progress{height:12px;background:#fff;border-radius:999px;overflow:hidden}.bar{height:100%;width:43%;background:linear-gradient(90deg,var(--sage),var(--lav));animation:grow 1.2s ease}
+    @keyframes grow{from{width:0}to{width:43%}}
+    .tracker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .input{width:100%;border:none;border-radius:12px;padding:10px;background:#fff}
+    .btn{border:none;border-radius:14px;padding:10px 14px;background:linear-gradient(90deg,var(--sage),var(--lav));cursor:pointer;font-weight:600;color:#3f3a47}
+    .btn:hover{transform:translateY(-1px)}
+    .goal{font-size:13px;opacity:.8}
+    .ring{width:120px;height:120px;border-radius:50%;margin:6px auto;display:grid;place-items:center;transition:all .6s ease}
+    .ring span{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;font-weight:700}
+    .celebrate{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .spark{position:absolute;font-size:20px;animation:floatUp 1.8s ease forwards}
+    @keyframes floatUp{from{transform:translateY(20px) scale(.8);opacity:0}30%{opacity:1}to{transform:translateY(-120px) scale(1.2);opacity:0}}
+    .quote{font-style:italic;background:linear-gradient(90deg,#fff,#fff6);padding:10px;border-radius:12px}
+    .week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
+    .day{background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.7);border-radius:16px;padding:12px}
+    .day h3{margin:0 0 8px;font-size:15px;color:#3f3a47}
+    .day ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="celebrate" id="celebrate"></div>
+  <div class="wrap">
+    <section class="card hero">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <h1>My 2-Week Reset Journey ✨</h1>
+      <p>Becoming healthier, happier, stronger — one cozy day at a time.</p>
+      <div class="stats">
+        <div class="card"><small>Current Weight</small><h3>70.9 kg</h3></div>
+        <div class="card"><small>Goal Weight</small><h3>67.0 kg</h3></div>
+        <div class="card"><small>Water</small><h3 id="waterStat">0.0L / 3L</h3></div>
+        <div class="card"><small>Steps</small><h3 id="stepsStat">0 / 10000</h3></div>
+        <div class="card"><small>Workout Streak</small><h3>5 Days</h3></div>
+      </div>
+      <p>Day 6 of 14 • 43% complete</p><div class="progress"><div class="bar"></div></div>
+    </section>
+
+    <section class="card">
+      <h2>Today’s Cute Tracker 💖</h2>
+      <p class="goal">Log your real numbers for today and I’ll save them on this device.</p>
+      <div class="tracker-grid">
+        <article class="card">
+          <h3>Water Intake Tracker 💧</h3>
+          <p class="goal">Goal: 3.0L/day</p>
+          <input class="input" id="waterInput" type="number" min="0" max="6" step="0.1" placeholder="Enter liters e.g. 2.6" />
+          <button class="btn" onclick="logWater()">Log Water</button>
+          <div id="waterRing" class="ring"><span id="waterPct">0%</span></div>
+        </article>
+        <article class="card">
+          <h3>Step Tracker 👟</h3>
+          <p class="goal">Week 2 Goal: 8,500–10,000/day</p>
+          <input class="input" id="stepsInput" type="number" min="0" max="50000" step="100" placeholder="Enter steps e.g. 9200" />
+          <button class="btn" onclick="logSteps()">Log Steps</button>
+          <div id="stepsRing" class="ring"><span id="stepsPct">0%</span></div>
+        </article>
+      </div>
+      <p class="quote" id="motivation">“You’re doing amazing, pretty girl. Small steps still count.”</p>
+    </section>
+
+    <section class="card">
+      <h2>Aligned Weekly Workout Plan 🗓️</h2>
+      <p class="goal">Clear day-by-day structure with rest and recovery built in.</p>
+      <div class="week-grid">
+        <article class="day"><h3>Mon · Day A</h3><ul><li>Leg Press — 3x12</li><li>Lat Pulldown — 3x12</li><li>Shoulder Press — 3x10</li><li>Glute Bridges — 3x15</li><li>Incline Walk — 10 min</li></ul></article>
+        <article class="day"><h3>Tue · Recovery</h3><ul><li>8k-10k steps</li><li>10-min stretch</li><li>Hydration + protein focus</li><li>Early sleep target</li></ul></article>
+        <article class="day"><h3>Wed · Day B</h3><ul><li>Romanian Deadlift — 3x10</li><li>Seated Row — 3x12</li><li>Goblet Squat — 3x12</li><li>Cable Crunches — 3x15</li><li>Incline Walk — 10 min</li></ul></article>
+        <article class="day"><h3>Thu · Recovery</h3><ul><li>8.5k+ steps</li><li>Mobility + core breathing</li><li>Light soreness check</li><li>Meal prep refresh</li></ul></article>
+        <article class="day"><h3>Fri · Day C</h3><ul><li>Hip Thrust — 3x12</li><li>Chest Press Machine — 3x12</li><li>Walking Lunges — 3x10</li><li>Assisted Plank — 3 rounds</li><li>Stairmaster/Treadmill — 10 min</li></ul></article>
+        <article class="day"><h3>Sat · Glute + Walk</h3><ul><li>Optional glute pump circuit</li><li>10k relaxed steps</li><li>Mindfulness cooldown</li><li>Foam roll 8 minutes</li></ul></article>
+        <article class="day"><h3>Sun · Reset Day</h3><ul><li>Full rest or gentle yoga</li><li>Weekly reflection notes</li><li>Grocery + prep list</li><li>Plan next week wins</li></ul></article>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const goals = { water: 3, steps: 10000 };
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const storageKey = `resetJourney-${todayKey}`;
+
+    function getData() {
+      try { return JSON.parse(localStorage.getItem(storageKey)) || { water: 0, steps: 0 }; }
+      catch { return { water: 0, steps: 0 }; }
+    }
+
+    function saveData(data) { localStorage.setItem(storageKey, JSON.stringify(data)); }
+
+    function drawRing(elId, pct, color = '#95c9a5') {
+      const clamped = Math.max(0, Math.min(100, pct));
+      document.getElementById(elId).style.background = `conic-gradient(${color} 0 ${clamped}%, #ececec ${clamped}% 100%)`;
+    }
+
+    function confettiCute() {
+      const holder = document.getElementById('celebrate');
+      const emojis = ['✨','💖','🌸','🫶','🎀'];
+      for (let i = 0; i < 14; i++) {
+        const spark = document.createElement('span');
+        spark.className = 'spark';
+        spark.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        spark.style.left = (Math.random()*100) + 'vw';
+        spark.style.top = (70 + Math.random()*20) + 'vh';
+        holder.appendChild(spark);
+        setTimeout(() => spark.remove(), 1800);
+      }
+    }
+
+    function setMotivation(waterPct, stepsPct) {
+      const msg = document.getElementById('motivation');
+      if (waterPct >= 100 && stepsPct >= 100) msg.textContent = '🎉 Queen energy! You hit both goals today!';
+      else if (waterPct >= 100 || stepsPct >= 100) msg.textContent = '💫 One goal complete! Keep glowing and finish the other one.';
+      else if (waterPct + stepsPct > 120) msg.textContent = '🌷 Beautiful consistency. You are building habits that last.';
+      else msg.textContent = '“Progress over perfection.” You are still winning today.';
+    }
+
+    function refreshUI() {
+      const data = getData();
+      const waterPct = Math.round((data.water / goals.water) * 100);
+      const stepsPct = Math.round((data.steps / goals.steps) * 100);
+      document.getElementById('waterStat').textContent = `${data.water.toFixed(1)}L / 3L`;
+      document.getElementById('stepsStat').textContent = `${data.steps} / 10000`;
+      document.getElementById('waterPct').textContent = `${Math.min(waterPct, 999)}%`;
+      document.getElementById('stepsPct').textContent = `${Math.min(stepsPct, 999)}%`;
+      drawRing('waterRing', waterPct, '#8fca9f');
+      drawRing('stepsRing', stepsPct, '#c6a9ef');
+      setMotivation(waterPct, stepsPct);
+    }
+
+    function logWater() {
+      const val = Number(document.getElementById('waterInput').value || 0);
+      const data = getData();
+      data.water = Math.max(0, val);
+      saveData(data); refreshUI(); confettiCute();
+    }
+
+    function logSteps() {
+      const val = Number(document.getElementById('stepsInput').value || 0);
+      const data = getData();
+      data.steps = Math.max(0, Math.round(val));
+      saveData(data); refreshUI(); confettiCute();
+    }
+
+    refreshUI();
+  </script>
+</body>
+</html>
