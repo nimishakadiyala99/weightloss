@@ -22,7 +22,21 @@
     .ring span{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;font-weight:700}
     .celebrate{position:fixed;inset:0;pointer-events:none;overflow:hidden}
     .spark{position:absolute;font-size:20px;animation:floatUp 1.8s ease forwards}
+    .side-float{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .float-rail{position:absolute;top:0;bottom:0;width:clamp(70px,12vw,160px);display:flex;align-items:stretch;justify-content:center}
+    .float-rail.left{left:0}.float-rail.right{right:0}
+    .orb{position:absolute;left:50%;transform:translateX(-50%);border-radius:999px;filter:blur(1px);opacity:.5;animation:drift 12s ease-in-out infinite}
+    .o1{width:clamp(38px,5.6vw,82px);height:clamp(38px,5.6vw,82px);top:12vh;background:radial-gradient(circle at 30% 30%,#fff9,#ffdbe8);animation-delay:0s}
+    .o2{width:clamp(54px,7vw,110px);height:clamp(54px,7vw,110px);top:38vh;background:radial-gradient(circle at 40% 35%,#fff8,#d6f0de);animation-delay:1.6s}
+    .o3{width:clamp(44px,6vw,88px);height:clamp(44px,6vw,88px);top:68vh;background:radial-gradient(circle at 35% 35%,#fff9,#e8ddfb);animation-delay:3.4s}
+    .sparkle{position:absolute;left:50%;transform:translateX(-50%);width:16px;height:16px;top:24vh;opacity:.7;animation:twinkle 4.6s ease-in-out infinite}
+    .sparkle::before,.sparkle::after{content:"";position:absolute;left:50%;top:50%;background:linear-gradient(180deg,#fff,#ffeef6);border-radius:99px;transform:translate(-50%,-50%)}
+    .sparkle::before{width:2px;height:16px}.sparkle::after{width:16px;height:2px}
+    .s2{top:56vh;animation-delay:1.2s}.s3{top:82vh;animation-delay:2.4s}
     @keyframes floatUp{from{transform:translateY(20px) scale(.8);opacity:0}30%{opacity:1}to{transform:translateY(-120px) scale(1.2);opacity:0}}
+    @keyframes drift{0%,100%{transform:translate(-50%,0) scale(1)}50%{transform:translate(calc(-50% + 8px),-20px) scale(1.08)}}
+    @keyframes twinkle{0%,100%{transform:translateX(-50%) scale(.8);opacity:.3}50%{transform:translateX(-50%) scale(1.15);opacity:.85}}
+    @media (max-width: 700px){.float-rail{width:56px}.orb{opacity:.34;filter:blur(0)}.sparkle{opacity:.45}}
     .quote{font-style:italic;background:linear-gradient(90deg,#fff,#fff6);padding:10px;border-radius:12px}
     .week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
     .day{background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.7);border-radius:16px;padding:12px}
@@ -38,19 +52,29 @@
 </head>
 <body>
   <div class="celebrate" id="celebrate"></div>
-  <div class="wrap">
+  <div class="side-float" aria-hidden="true">
+    <div class="float-rail left">
+      <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+      <span class="sparkle s1"></span><span class="sparkle s2"></span><span class="sparkle s3"></span>
+    </div>
+    <div class="float-rail right">
+      <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+      <span class="sparkle s1"></span><span class="sparkle s2"></span><span class="sparkle s3"></span>
+    </div>
+  </div>
+  <div class="wrap" style="position:relative;z-index:1">
     <section class="card hero">
       <div class="blob b1"></div><div class="blob b2"></div>
       <h1>My 2-Week Reset Journey ✨</h1>
       <p>Becoming healthier, happier, stronger — one cozy day at a time.</p>
       <div class="stats">
-        <div class="card"><small>Current Weight</small><h3>75.9 kg</h3></div>
-        <div class="card"><small>Goal Weight</small><h3>65.0 kg</h3></div>
-        <div class="card"><small>Water Goal</small><h3 id="waterStat">3L/DAY</h3></div>
-        <div class="card"><small>Steps Target</small><h3 id="stepsStat">10000/day</h3></div>
-        <div class="card"><small>Sleep</small><h3>7+ hours</h3></div>
+        <div class="card"><small>Current Weight</small><h3>70.9 kg</h3></div>
+        <div class="card"><small>Goal Weight</small><h3>67.0 kg</h3></div>
+        <div class="card"><small>Water</small><h3 id="waterStat">0.0L / 3L</h3></div>
+        <div class="card"><small>Steps</small><h3 id="stepsStat">0 / 10000</h3></div>
+        <div class="card"><small>Workout Streak</small><h3>5 Days</h3></div>
       </div>
-      <p>Day 0 of 14 • 0% complete</p><div class="progress"><div class="bar"></div></div>
+      <p>Day 6 of 14 • 43% complete</p><div class="progress"><div class="bar"></div></div>
     </section>
 
     <section class="card">
