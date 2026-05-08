@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My 2-Week Reset Journey</title>
+  <style>
+    :root{--sage:#cfe3d2;--blush:#f9e3ea;--beige:#f5ecdd;--cream:#fff8ef;--lav:#e6ddfb;--text:#4a4a56;--mint:#95c9a5}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:linear-gradient(145deg,#1F0322,#2f0c35 45%,#3a1440);}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px;display:grid;gap:16px}
+    .card{background:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.55);backdrop-filter:blur(9px);border-radius:24px;box-shadow:0 12px 30px rgba(0,0,0,.08);padding:18px}
+    .hero{position:relative;overflow:hidden}.blob{position:absolute;width:220px;height:220px;border-radius:999px;filter:blur(30px);opacity:.6}.b1{right:-80px;top:-80px;background:var(--lav)}.b2{left:-80px;bottom:-80px;background:var(--sage)}
+    .stats,.grid2,.grid3{display:grid;gap:10px}.stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.grid2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.grid3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .progress{height:12px;background:#fff;border-radius:999px;overflow:hidden}.bar{height:100%;width:43%;background:linear-gradient(90deg,var(--sage),var(--lav));animation:grow 1.2s ease}
+    @keyframes grow{from{width:0}to{width:43%}}
+    .tracker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .input{width:100%;border:none;border-radius:12px;padding:10px;background:#fff}
+    .btn{border:none;border-radius:14px;padding:10px 14px;background:linear-gradient(90deg,var(--sage),var(--lav));cursor:pointer;font-weight:600;color:#3f3a47}
+    .btn:hover{transform:translateY(-1px)}
+    .goal{font-size:13px;opacity:.8}
+    .ring{width:120px;height:120px;border-radius:50%;margin:6px auto;display:grid;place-items:center;transition:all .6s ease}
+    .ring span{width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;font-weight:700}
+    .celebrate{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+    .spark{position:absolute;font-size:20px;animation:floatUp 1.8s ease forwards}
+    .side-float{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .float-rail{position:absolute;top:0;bottom:0;width:clamp(70px,12vw,160px);display:flex;align-items:stretch;justify-content:center}
+    .float-rail.left{left:0}.float-rail.right{right:0}
+    .emoji-float{position:absolute;left:50%;transform:translateX(-50%);font-size:clamp(16px,2.3vw,28px);opacity:.22;filter:saturate(.85);animation:driftEmoji 10s ease-in-out infinite}
+    .e1{top:12vh;animation-delay:0s}.e2{top:32vh;animation-delay:1.2s}.e3{top:52vh;animation-delay:2.6s}.e4{top:74vh;animation-delay:3.8s}
+    .bubble{position:absolute;left:50%;transform:translateX(-50%);font-size:clamp(14px,2vw,22px);opacity:.18;animation:bubbleRise 8s ease-in-out infinite}
+    .bub1{top:20vh;animation-delay:.8s}.bub2{top:58vh;animation-delay:2.2s}.bub3{top:84vh;animation-delay:3.2s}
+    @keyframes floatUp{from{transform:translateY(20px) scale(.8);opacity:0}30%{opacity:1}to{transform:translateY(-120px) scale(1.2);opacity:0}}
+    @keyframes driftEmoji{0%,100%{transform:translate(-50%,0)}50%{transform:translate(calc(-50% + 8px),-16px)}}
+    @keyframes bubbleRise{0%,100%{transform:translate(-50%,0) scale(.92);opacity:.12}50%{transform:translate(calc(-50% - 6px),-22px) scale(1.08);opacity:.26}}
+    @media (max-width: 700px){.float-rail{width:52px}.emoji-float{opacity:.16}.bubble{opacity:.12}}
+    .quote{font-style:italic;background:linear-gradient(90deg,#fff,#fff6);padding:10px;border-radius:12px}
+    .week-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
+    .day{background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.7);border-radius:16px;padding:12px}
+    .day h3{margin:0 0 8px;font-size:15px;color:#3f3a47}
+    .day ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:13px}
+    .mini-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+    .d{background:#fff;border:1px solid #eee;border-radius:10px;padding:8px;min-height:70px;font-size:12px;text-align:center;cursor:pointer}
+    .d small{display:block;opacity:.6}
+    .mark{font-size:16px;margin-top:6px;display:block}
+    table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff;border-radius:12px;overflow:hidden}
+    th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="celebrate" id="celebrate"></div>
+  <div class="side-float" aria-hidden="true">
+    <div class="float-rail left">
+      <span class="emoji-float e1">✨</span><span class="emoji-float e2">🫧</span><span class="emoji-float e3">🌸</span><span class="emoji-float e4">💖</span>
+      <span class="bubble bub1">🫧</span><span class="bubble bub2">✨</span><span class="bubble bub3">🫧</span>
+    </div>
+    <div class="float-rail right">
+      <span class="emoji-float e1">✨</span><span class="emoji-float e2">🫧</span><span class="emoji-float e3">🌷</span><span class="emoji-float e4">💫</span>
+      <span class="bubble bub1">🫧</span><span class="bubble bub2">✨</span><span class="bubble bub3">🫧</span>
+    </div>
+  </div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <section class="card hero">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <h1>My 2-Week Reset Journey ✨</h1>
+      <p>Becoming healthier, happier, stronger — one cozy day at a time.</p>
+      <div class="stats">
+        <div class="card"><small>Current Weight</small><h3>70.9 kg</h3></div>
+        <div class="card"><small>Goal Weight</small><h3>67.0 kg</h3></div>
+        <div class="card"><small>Water</small><h3 id="waterStat">0.0L / 3L</h3></div>
+        <div class="card"><small>Steps</small><h3 id="stepsStat">0 / 10000</h3></div>
+        <div class="card"><small>Workout Streak</small><h3>5 Days</h3></div>
+      </div>
+      <p>Day 6 of 14 • 43% complete</p><div class="progress"><div class="bar"></div></div>
+    </section>
+
+    <section class="card">
+      <h2>Calendar Tracker System 🗓️</h2>
+      <div class="grid2">
+        <article class="card">
+          <h3>No Sugar Calendar 💖</h3>
+          <p class="goal">Tap each day to mark a no-sugar day with a heart.</p>
+          <div id="sugarCalendar" class="mini-cal"></div>
+        </article>
+        <article class="card">
+          <h3>Water + Steps Entry Tables 💧👟</h3>
+          <p class="goal">Add liters and steps by date; values stay saved on your device.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input class="input" id="waterDate" type="date" />
+            <input class="input" id="waterLiters" type="number" min="0" max="6" step="0.1" placeholder="Water liters" style="max-width:140px"/>
+            <button class="btn" onclick="addWaterEntry()">Save Water</button>
+          </div>
+          <table>
+            <thead><tr><th>Date</th><th>Water (L)</th></tr></thead>
+            <tbody id="waterTableBody"></tbody>
+          </table>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <input class="input" id="stepsDate" type="date" />
+            <input class="input" id="stepsCount" type="number" min="0" max="50000" step="100" placeholder="Steps" style="max-width:140px"/>
+            <button class="btn" onclick="addStepsEntry()">Save Steps</button>
+          </div>
+          <table>
+            <thead><tr><th>Date</th><th>Steps</th></tr></thead>
+            <tbody id="stepsTableBody"></tbody>
+          </table>
+        </article>
+      </div>
+      <p class="quote" id="motivation">Tap your habits daily — consistency looks cute on you ✨</p>
+    </section>
+
+    <section class="card">
+      <h2>Aligned Weekly Workout Plan 🗓️</h2>
+      <p class="goal">Clear day-by-day structure with rest and recovery built in.</p>
+      <div class="week-grid">
+        <article class="day"><h3>Mon · Day A</h3><ul><li>Leg Press — 3x12</li><li>Lat Pulldown — 3x12</li><li>Shoulder Press — 3x10</li><li>Glute Bridges — 3x15</li><li>Incline Walk — 10 min</li></ul></article>
+        <article class="day"><h3>Tue · Recovery</h3><ul><li>8k-10k steps</li><li>10-min stretch</li><li>Hydration + protein focus</li><li>Early sleep target</li></ul></article>
+        <article class="day"><h3>Wed · Day B</h3><ul><li>Romanian Deadlift — 3x10</li><li>Seated Row — 3x12</li><li>Goblet Squat — 3x12</li><li>Cable Crunches — 3x15</li><li>Incline Walk — 10 min</li></ul></article>
+        <article class="day"><h3>Thu · Recovery</h3><ul><li>8.5k+ steps</li><li>Mobility + core breathing</li><li>Light soreness check</li><li>Meal prep refresh</li></ul></article>
+        <article class="day"><h3>Fri · Day C</h3><ul><li>Hip Thrust — 3x12</li><li>Chest Press Machine — 3x12</li><li>Walking Lunges — 3x10</li><li>Assisted Plank — 3 rounds</li><li>Stairmaster/Treadmill — 10 min</li></ul></article>
+        <article class="day"><h3>Sat · Glute + Walk</h3><ul><li>Optional glute pump circuit</li><li>10k relaxed steps</li><li>Mindfulness cooldown</li><li>Foam roll 8 minutes</li></ul></article>
+        <article class="day"><h3>Sun · Reset Day</h3><ul><li>Full rest or gentle yoga</li><li>Weekly reflection notes</li><li>Grocery + prep list</li><li>Plan next week wins</li></ul></article>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const sugarKey = 'reset-sugar-calendar';
+    const stepsTableKey = 'reset-steps-table';
+    const waterKey = 'reset-water-table';
+
+    function loadJson(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+      catch { return fallback; }
+    }
+    function saveJson(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+    function renderSugarCalendar() {
+      const box = document.getElementById('sugarCalendar');
+      const state = loadJson(sugarKey, {});
+      const now = new Date();
+      const y = now.getFullYear(); const m = now.getMonth();
+      const days = new Date(y, m + 1, 0).getDate();
+      box.innerHTML = '';
+      for (let d = 1; d <= Math.min(days, 14); d++) {
+        const date = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const mark = state[date] || false;
+        const el = document.createElement('button');
+        el.className = 'd';
+        el.innerHTML = `<small>${date.slice(5)}</small><strong>Day ${d}</strong><span class="mark">${mark?'💖':''}</span>`;
+        el.onclick = () => {
+          state[date] = !state[date];
+          saveJson(sugarKey, state);
+          renderSugarCalendar();
+          document.getElementById('motivation').textContent = state[date] ? '💖 No sugar win! Amazing discipline.' : 'Sugar marker cleared for this day.';
+        };
+        box.appendChild(el);
+      }
+    }
+
+    function renderWaterTable() {
+      const rows = loadJson(waterKey, []);
+      const body = document.getElementById('waterTableBody');
+      body.innerHTML = rows.length ? '' : '<tr><td colspan="2">No entries yet.</td></tr>';
+      rows.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${r.date}</td><td>${Number(r.liters).toFixed(1)}</td>`;
+        body.appendChild(tr);
+      });
+      const today = new Date().toISOString().slice(0,10);
+      document.getElementById('waterDate').value = today;
+    }
+
+    function renderStepsTable() {
+      const rows = loadJson(stepsTableKey, []);
+      const body = document.getElementById('stepsTableBody');
+      body.innerHTML = rows.length ? '' : '<tr><td colspan="2">No entries yet.</td></tr>';
+      rows.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${r.date}</td><td>${Number(r.steps)}</td>`;
+        body.appendChild(tr);
+      });
+      document.getElementById('stepsDate').value = new Date().toISOString().slice(0,10);
+    }
+
+    function addStepsEntry() {
+      const date = document.getElementById('stepsDate').value;
+      const steps = Number(document.getElementById('stepsCount').value || 0);
+      if (!date || steps <= 0) return;
+      const rows = loadJson(stepsTableKey, []);
+      const idx = rows.findIndex(r => r.date === date);
+      if (idx >= 0) rows[idx].steps = Math.round(steps); else rows.push({ date, steps: Math.round(steps) });
+      saveJson(stepsTableKey, rows);
+      renderStepsTable();
+      document.getElementById('motivation').textContent = `👟 Saved ${Math.round(steps)} steps for ${date}. Keep going!`;
+    }
+
+    function addWaterEntry() {
+      const date = document.getElementById('waterDate').value;
+      const liters = Number(document.getElementById('waterLiters').value || 0);
+      if (!date || liters <= 0) return;
+      const rows = loadJson(waterKey, []);
+      const idx = rows.findIndex(r => r.date === date);
+      if (idx >= 0) rows[idx].liters = liters; else rows.push({ date, liters });
+      saveJson(waterKey, rows);
+      renderWaterTable();
+      document.getElementById('motivation').textContent = `💧 Saved ${liters.toFixed(1)}L for ${date}. Keep glowing!`;
+    }
+
+    window.addWaterEntry = addWaterEntry;
+    window.addStepsEntry = addStepsEntry;
+    renderSugarCalendar();
+    renderWaterTable();
+    renderStepsTable();
+  </script>
+</body>
+</html>
